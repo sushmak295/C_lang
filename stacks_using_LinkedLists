@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+struct stack_node
+{
+    int data;
+    struct stack_node* next;
+    
+};
+int isempty(struct StackNode *root)
+{
+    return !root;
+}
+struct stack_node* add_node(int data)
+{
+    struct stack_node* new_node=(struct stack_node*) calloc(1,sizeof(struct stack_node));
+    new_node->data=data;
+    new_node->next=NULL;
+    return new_node;
+}
+
+struct stack_node* push(struct stack_node* root,int data)
+{
+    struct stack_node* new_node=(struct stack_node*) calloc(1,sizeof(struct stack_node));
+    new_node->data=data;
+    new_node->next=root;
+    root=new_node;
+    return root;
+}
+struct stack_node* pop(struct stack_node* root)
+{   int to_pop;
+    if (isempty(root))
+        return NULL;
+    to_pop=root->data;
+    printf("%d is popped out of stack",to_pop);
+    root=root->next;
+    return root;
+}
+int peek(struct stack_node* root)
+{
+    if (isempty(root))
+        return NULL;
+    return root->data;
+}
+int main()
+{   struct stack_node* root=NULL;
+    root=add_node(10);
+    root=push(root,20);
+    root=pop(root);
+ 
+    printf("Top element is %d\n", peek(root));
+}
