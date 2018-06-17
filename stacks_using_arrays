@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+struct stack{
+    int top;
+    unsigned capacity;
+    int *array
+};
+struct stack* create_stack(unsigned capacity);
+int isfull(struct stack* s);
+int isempty(struct stack* s);
+void push(struct stack* s,int data);
+int pop(struct stack* s);
+int main()
+{
+    struct Stack* stack = create_stack(100);
+ 
+    push(stack, 10);
+    push(stack, 20);
+    push(stack, 30);
+ 
+    printf("%d popped from stack\n", pop(stack));
+ 
+    return 0;
+}
+struct stack* create_stack(unsigned capacity)
+{
+    struct stack* s= (struct stack*) calloc(1,sizeof(struct stack));
+    s->top=-1;
+    s->capacity=capacity;
+    s->array= (int*) calloc(capacity,sizeof(struct stack));
+    return s;
+}
+int isfull(struct stack* s)
+{
+    return (s->top==s->capacity-1);
+}
+int isempty(struct stack* s)
+{
+    return (s->top==-1);
+}
+void push(struct stack* s,int data)
+{
+    if (isfull(s))
+        return ;
+    s->top=s->top+1;
+    s->array[s->top]=data;
+        
+}
+int pop(struct stack* s)
+{
+    if (isempty(s))
+        return NULL;
+    return (s->array[s->top--]);
+}
