@@ -1,0 +1,147 @@
+#include<stdio.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+void traverse(struct node *n);
+struct node* push(struct node* head_ref, int new_data);
+void insert_after(struct node* prev_node,int new_data);
+void append(struct node* head_ref,int new_data);
+struct node* delete(struct node* head_ref,int data);
+struct node* reverse(struct node* n);
+struct node* rotateleft_one(struct node* n);
+struct node* rotateleft(struct node* n,int num);
+int main(void) {
+    struct node *head;
+    struct node *second;
+    struct node *third;
+    head= (struct node*)calloc(1,sizeof(struct node));
+    second= (struct node*)calloc(1,sizeof(struct node));
+    third= (struct node*)calloc(1,sizeof(struct node));   
+    head->data = 1; //assign data in first node
+    head->next = second;
+    second->data = 2; //assign data to second node
+    second->next = third;
+    third->data = 3; //assign data to third node
+    third->next = NULL;    
+    head=push(head, 7);    
+    insert_after(head->next, 8);
+    append(head,10);
+    traverse(head);    
+    head=rotateleft(head,2);
+    traverse(head); 
+    
+    
+}
+void traverse(struct node *n)
+{
+    while(n)
+    {
+        printf("the data:%d\n",n->data);
+        n=n->next;
+    }
+}
+
+struct node* push(struct node* head_ref, int new_data)
+{
+   struct node* new_node = (struct node*)calloc(1,sizeof(struct node));
+    new_node->data=new_data;
+    new_node->next=head_ref;
+    head_ref=new_node;
+    return head_ref;
+}
+void insert_after(struct node* prev_node,int new_data)
+{
+    struct node* new_node = (struct node*)calloc(1,sizeof(struct node));
+    new_node->data=new_data;
+    new_node->next=prev_node->next;
+    prev_node->next=new_node;
+}
+void append(struct node* n,int new_data)
+{   struct node* new_node = (struct node*)calloc(1,sizeof(struct node));
+    new_node->data=new_data;
+    new_node->next=NULL;
+    if(n)
+    {while(n)
+    {
+        if(!(n->next))
+        {
+            n->next=new_node;
+            break;
+        }
+        n=n->next;
+        
+    }
+    }
+    else
+    {
+        n=new_node;
+        
+    }
+    
+}
+struct node* delete(struct node* n,int data)
+{   struct node* prev=NULL;
+    struct node* head=n;
+
+     printf("n:%d\n",n);
+    if (n->data==data)
+        {
+            n=n->next;
+            return n;
+        }
+        printf("n:%d\n",n);
+    while(n->data != data)
+        {   prev=n;
+            n=n->next;        
+            
+        }
+         printf("prev->data:%d,next->data:%d\n",prev->data,prev->next->data);
+        prev->next=n->next;
+        printf("prev->data:%d,next->data:%d\n",prev->data,prev->next->data);
+        return head;
+   
+        
+}
+struct node* reverse(struct node* n)
+{
+    struct node* prev_node=NULL;
+    struct node* curr_node=n;
+    struct node* next_node=NULL;
+    while(curr_node)
+    {        
+        next_node=curr_node->next;
+        curr_node->next=prev_node;
+        prev_node=curr_node;
+        curr_node=next_node;
+        
+        
+    }
+    return prev_node;
+    
+}
+struct node* rotateleft_one(struct node* n)
+{
+    struct node* prev_node=NULL;
+    struct node* curr_node=n;
+    struct node* next_node=curr_node->next;
+    while(next_node)
+    {
+        prev_node=curr_node;
+        curr_node=curr_node->next;
+        next_node=curr_node->next;
+    }
+    prev_node->next=NULL;
+    curr_node->next=n;
+    n=curr_node;
+    return n;
+}
+struct node* rotateleft(struct node* n,int num)
+{   
+    for(int i=0;i<num;i++)
+    {
+        n=rotateleft_one(n);
+    }
+    return n;
+}
